@@ -2,6 +2,43 @@ import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { fireDB } from "./firebaseConfig";
 import * as crypto from "crypto-js";
 
+export const LoginUser = async (payload: { email: string; password: string }) => {
+  try {
+    const userRef = collection(fireDB, "users");
+    const q = await getDocs(query(userRef, where("email", "==", payload.email)));
+    if (q.docs.length === 0) {
+      return {
+        success: false,
+        message: "Wrong email or password",
+        data: null,
+      };
+    }
+
+    const userData = q.docs[0].data();
+    const hashedInputPassword = crypto.SHA256(payload.password).toString();
+
+    if (hashedInputPassword !== userData.password) {
+      return {  
+        success: false,
+        message: "Wrong email or password",
+        data: null,
+      };
+    }
+
+    return {
+      success: true,
+      message: "Login successful",
+      data: userData,
+    };
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : "Login failed",
+      data: null,
+    };
+  }
+};
+
 export const RegisterUser = async (payload: { name: string; email: string; password: string }) => {
   try {
     const userRef = collection(fireDB, "users");
@@ -14,8 +51,8 @@ export const RegisterUser = async (payload: { name: string; email: string; passw
       };
     }
 
-    const encryptedPassword = crypto.AES.encrypt(payload.password, import.meta.env.VITE_ENCRYPTION_KEY).toString();
-    const response = await addDoc(collection(fireDB, "users"), { ...payload, password: encryptedPassword });
+    const hashedPassword = crypto.SHA256(payload.password).toString();
+    const response = await addDoc(collection(fireDB, "users"), { ...payload, password: hashedPassword });
     
     return {
       success: true,

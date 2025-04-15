@@ -20,7 +20,7 @@ const Register = () => {
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
-        toast.error(error.message || "Registration failed");
+        toast.error(error.message);
       }
     }
   };

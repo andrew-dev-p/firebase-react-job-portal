@@ -1,9 +1,24 @@
 import { Form } from "antd";
 import { Link } from "react-router-dom";
+import { LoginUser } from "../firebase/authService";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
-  const onFinish = (values: { email: string; password: string }) => {
-    console.log(values);
+  const onFinish = async (values: { email: string; password: string }) => {
+    try {
+      const response = await LoginUser(values);
+
+      if (response.success) {
+        toast.success(response.message);
+      } else {
+        toast.error(response.message || "Login failed");
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    }
   };
 
   return (

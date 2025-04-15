@@ -3,14 +3,18 @@ import { Link } from "react-router-dom";
 import { LoginUser } from "../firebase/authService";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const onFinish = async (values: { email: string; password: string }) => {
     try {
       const response = await LoginUser(values);
 
       if (response.success) {
         toast.success(response.message);
+        navigate("/");
       } else {
         toast.error(response.message || "Login failed");
       }

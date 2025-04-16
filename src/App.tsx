@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import "./stylesheets/custom-components.css";
+import "./stylesheets/layout.css";
 
 function App() {
   const { loading } = useAppSelector((state) => state.alert);

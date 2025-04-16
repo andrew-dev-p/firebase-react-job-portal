@@ -1,8 +1,11 @@
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { fireDB } from "./firebaseConfig";
+import { setLoading } from "../redux/alertSlice";
+import { AppDispatch } from "../redux/store";
 import * as crypto from "crypto-js";
 
-export const LoginUser = async (payload: { email: string; password: string }) => {
+export const LoginUser = async (payload: { email: string; password: string }, dispatch: AppDispatch) => {
+  dispatch(setLoading(true));
   try {
     const userRef = collection(fireDB, "users");
     const q = await getDocs(query(userRef, where("email", "==", payload.email)));
@@ -36,10 +39,13 @@ export const LoginUser = async (payload: { email: string; password: string }) =>
       message: error instanceof Error ? error.message : "Login failed",
       data: null,
     };
+  } finally {
+    dispatch(setLoading(false));
   }
 };
 
-export const RegisterUser = async (payload: { name: string; email: string; password: string }) => {
+export const RegisterUser = async (payload: { name: string; email: string; password: string }, dispatch: AppDispatch) => {
+  dispatch(setLoading(true));
   try {
     const userRef = collection(fireDB, "users");
     const q = await getDocs(query(userRef, where("email", "==", payload.email)));
@@ -65,5 +71,7 @@ export const RegisterUser = async (payload: { name: string; email: string; passw
       message: error instanceof Error ? error.message : "An error occurred",
       data: null,
     } 
+  } finally {
+    dispatch(setLoading(false));
   }
 };

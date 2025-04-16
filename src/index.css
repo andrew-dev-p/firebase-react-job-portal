@@ -59,3 +59,8 @@ a:hover {
   background-color: gray;
   margin: 20px 0;
 }
+
+.spinner-border {
+  height: 80px;
+  width: 80px;
+}

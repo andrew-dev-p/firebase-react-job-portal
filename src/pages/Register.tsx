@@ -3,15 +3,18 @@ import { Link } from "react-router-dom";
 import { RegisterUser } from "../firebase/authService";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
 
 const Register = () => {
+  const dispatch = useDispatch();
+
   const onFinish = async (values: {
     name: string;
     email: string;
     password: string;
   }) => {
     try {
-      const response = await RegisterUser(values);
+      const response = await RegisterUser(values, dispatch);
 
       if (response.success) {
         toast.success(response.message);

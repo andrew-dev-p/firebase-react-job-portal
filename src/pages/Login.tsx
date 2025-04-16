@@ -4,13 +4,15 @@ import { LoginUser } from "../firebase/authService";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onFinish = async (values: { email: string; password: string }) => {
     try {
-      const response = await LoginUser(values);
+      const response = await LoginUser(values, dispatch);
 
       if (response.success) {
         localStorage.setItem("user", JSON.stringify(response.data));

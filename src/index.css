@@ -36,6 +36,14 @@ textarea {
   min-height: 100px;
 }
 
+select {
+  border: 1px solid gray;
+  height: 40px;
+  width: 100%;
+  padding-left: 20px;
+  background-color: #fff;
+}
+
 .primary-contained-btn {
   background-color: #171717;
   border-radius: 0;

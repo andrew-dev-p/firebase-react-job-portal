@@ -33,7 +33,7 @@ export const LoginUser = async (payload: { email: string; password: string }, di
     return {
       success: true,
       message: "Login successful",
-      data: {userData, id: userId},
+      data: {...userData, id: userId},
     };
   } catch (error: unknown) {
     return {

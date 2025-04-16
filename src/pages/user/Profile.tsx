@@ -1,4 +1,4 @@
-import { Tabs } from "antd";
+import { Form, Tabs } from "antd";
 import PageTitle from "../../components/PageTitle";
 import PersonalInfo from "./profile/PersonalInfo";
 import Education from "./profile/Education";
@@ -25,7 +25,9 @@ const tabItems = [
 const Profile = () => (
   <div>
     <PageTitle title="Profile" />
-    <Tabs items={tabItems} />
+    <Form layout="vertical">
+      <Tabs items={tabItems} />
+    </Form>
   </div>
 );
 

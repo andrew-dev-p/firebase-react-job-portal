@@ -42,6 +42,17 @@ textarea {
   height: 45px;
   color: white;
   text-transform: uppercase;
+  padding: 0 20px;
+}
+
+.primary-outlined-btn {
+  border: 1px solid #171717;
+  background-color: transparent;
+  border-radius: 0;
+  height: 40px;
+  color: #171717;
+  text-transform: uppercase;
+  padding: 0 20px;
 }
 
 .ant-form-item {

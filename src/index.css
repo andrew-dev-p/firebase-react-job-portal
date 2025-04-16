@@ -64,3 +64,15 @@ a:hover {
   height: 80px;
   width: 80px;
 }
+
+.ant-tabs-tab-btn {
+  color: black !important;
+}
+
+.ant-tabs-tab-active .ant-tabs-tab-btn {
+  font-weight: 500;
+}
+
+.ant-tabs-ink-bar {
+  background-color: black !important;
+}

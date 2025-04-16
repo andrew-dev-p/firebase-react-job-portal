@@ -10,6 +10,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import "./stylesheets/custom-components.css";
 import "./stylesheets/layout.css";
+import AppliedJobs from "./pages/user/AppliedJobs";
+import Profile from "./pages/user/Profile";
 
 function App() {
   const { loading } = useAppSelector((state) => state.alert);
@@ -26,6 +28,8 @@ function App() {
           </Route>
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<Home />} />
+            <Route path="/applied-jobs" element={<AppliedJobs />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
         </Routes>
       </BrowserRouter>

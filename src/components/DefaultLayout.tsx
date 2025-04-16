@@ -1,8 +1,9 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 const DefaultLayout = ({ children }: PropsWithChildren) => {
   const user = JSON.parse(localStorage.getItem("user")!);
+  const [collapsed, setCollapsed] = useState(false);
 
   const userMenu = [
     {
@@ -28,7 +29,7 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
   ];
 
   return (
-    <div className="layout">
+    <div className={`layout${collapsed ? " sidebar-collapsed" : ""}`}>
       <div className="sidebar d-flex justify-content-between">
         <div className="menu">
           {userMenu.map((menuItem) => (
@@ -41,7 +42,7 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
               end={menuItem.path === "/"}
             >
               <i className={menuItem.iconClassName}></i>
-              <span>{menuItem.title}</span>
+              {!collapsed && <span>{menuItem.title}</span>}
             </NavLink>
           ))}
           <NavLink
@@ -52,19 +53,38 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
             onClick={() => localStorage.removeItem("user")}
           >
             <i className="ri-logout-circle-line"></i>
-            <span>Logout</span>
+            {!collapsed && <span>Logout</span>}
           </NavLink>
         </div>
       </div>
       <div className="content-area">
-        <div className="header d-flex justify-content-between">
-          <span className="logo">Job Portal</span>
+        <div className="header d-flex justify-content-between align-items-center">
+          <div className="d-flex align-items-center gap-2">
+            <button
+              className="collapse-btn text-white"
+              onClick={() => setCollapsed((prev) => !prev)}
+              style={{
+                border: "none",
+                background: "none",
+                cursor: "pointer",
+                fontSize: 24,
+              }}
+              aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            >
+              <i
+                className={
+                  collapsed ? "ri-arrow-right-s-line" : "ri-arrow-left-s-line"
+                }
+              />
+            </button>
+            <span className="logo">Job Portal</span>
+          </div>
           <div className="d-flex align-items-center gap-2">
             <i className="ri-shield-user-line"></i>
             <span>{user.name}</span>
           </div>
         </div>
-        <div className="body">Body</div>
+        <div className="body">{children}</div>
       </div>
     </div>
   );

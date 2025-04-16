@@ -24,6 +24,12 @@
   height: 100%;
 }
 
+.layout .sidebar {
+  width: 180px;
+  min-width: 180px;
+  transition: width 0.2s cubic-bezier(0.4,0,0.2,1);
+}
+
 .header {
   background-color: #171717;
   padding: 15px;
@@ -74,4 +80,22 @@
 .active-menu-item {
   background-color: #ffffff33;
   font-weight: 600;
+}
+
+.layout.sidebar-collapsed .sidebar {
+  width: 67px;
+  min-width: 67px;
+  transition: width 0.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+.layout.sidebar-collapsed .menu-item span {
+  display: none;
+}
+
+.layout.sidebar-collapsed .menu {
+  align-items: center;
+}
+
+.layout.sidebar-collapsed .menu-item {
+  justify-content: center;
 }

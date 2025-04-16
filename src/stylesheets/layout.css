@@ -44,3 +44,34 @@
 .logo {
   font-size: 20px;
 }
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  text-decoration: none;
+  text-wrap: nowrap;
+}
+
+.menu-item:hover {
+  color: white;
+}
+
+.menu-item:hover > span {
+  text-decoration: underline;
+}
+
+.active-menu-item {
+  background-color: #ffffff33;
+  font-weight: 600;
+}

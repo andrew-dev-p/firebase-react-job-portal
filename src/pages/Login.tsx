@@ -13,6 +13,7 @@ const Login = () => {
       const response = await LoginUser(values);
 
       if (response.success) {
+        localStorage.setItem("user", JSON.stringify(response.data));
         toast.success(response.message);
         navigate("/");
       } else {

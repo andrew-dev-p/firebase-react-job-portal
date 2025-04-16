@@ -18,6 +18,8 @@ export const LoginUser = async (payload: { email: string; password: string }, di
     }
 
     const userData = q.docs[0].data();
+    const userId = q.docs[0].id;
+    
     const hashedInputPassword = crypto.SHA256(payload.password).toString();
 
     if (hashedInputPassword !== userData.password) {
@@ -31,7 +33,7 @@ export const LoginUser = async (payload: { email: string; password: string }, di
     return {
       success: true,
       message: "Login successful",
-      data: userData,
+      data: {userData, id: userId},
     };
   } catch (error: unknown) {
     return {

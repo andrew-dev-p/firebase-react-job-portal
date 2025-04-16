@@ -12,6 +12,8 @@ import "./stylesheets/custom-components.css";
 import "./stylesheets/layout.css";
 import AppliedJobs from "./pages/user/AppliedJobs";
 import Profile from "./pages/user/Profile";
+import PostedJobs from "./pages/user/PostedJobs";
+import NewEditJob from "./pages/user/PostedJobs/NewEditJob";
 
 function App() {
   const { loading } = useAppSelector((state) => state.alert);
@@ -30,6 +32,9 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/applied-jobs" element={<AppliedJobs />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/posted-jobs" element={<PostedJobs />} />
+            <Route path="/posted-jobs/new" element={<NewEditJob />} />
+            <Route path="/posted-jobs/edit/:id" element={<NewEditJob />} />
           </Route>
         </Routes>
       </BrowserRouter>

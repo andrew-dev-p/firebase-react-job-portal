@@ -1,4 +1,4 @@
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
 import { ProfileFormValues } from "../pages/user/Profile";
 import { fireDB } from "./firebaseConfig";
 
@@ -46,6 +46,27 @@ export const getUserProfile = async () => {
     return {
       success: false,
       message: error instanceof Error ? error.message : "Failed to fetch user profile",
+      data: null
+    }
+  }
+}
+
+export const getAllUsers = async () => {
+  try {
+    const users = await getDocs(collection(fireDB, "users"));
+
+    return {
+      success: true,
+      message: "Users fetched successfully",
+      data: users.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : "Failed to fetch users",
       data: null
     }
   }

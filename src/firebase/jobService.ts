@@ -88,9 +88,15 @@ export const getJobById = async (id: string) => {
   }
 };
 
-export const editJobDetails = async (payload: JobFormValues) => {
+export const editJobDetails = async (payload: Partial<JobFormValues>) => {
   try {
-    await updateDoc(doc(fireDB, "jobs", payload.id), { ...payload, updatedOn: moment().format("DD-MM-YYYY HH:mm A") });
+    if (!payload.id) {
+      throw new Error("Job ID is required to update job details.");
+    }
+    await updateDoc(
+      doc(fireDB, "jobs", payload.id),
+      { ...payload, updatedOn: moment().format("DD-MM-YYYY HH:mm A") }
+    );
     return {
       success: true,
       message: "Job updated successfully",
@@ -109,6 +115,43 @@ export const deleteJobById = async (id: string) => {
     return {
       success: true,
       message: "Job deleted successfully",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : "Something went wrong",
+    };
+  }
+};
+
+export const getAllJobs = async () => {
+  try {
+    const jobs: JobFormValues[] = [];
+    const qry = query(collection(fireDB, "jobs"), orderBy("postedOn", "desc"));
+    const querySnapshot = await getDocs(qry);
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      jobs.push({
+        id: doc.id,
+        title: data.title || "",
+        industry: data.industry || "",
+        location: data.location || "",
+        company: data.company || "",
+        salary: data.salary || "",
+        jobType: data.jobType || "",
+        lastDateToApply: data.lastDateToApply || "",
+        experience: data.experience || "",
+        noticePeriod: data.noticePeriod || "",
+        jobDescription: data.jobDescription || "",
+        status: data.status,
+        postedByUserId: data.postedByUserId,
+        postedByUserName: data.postedByUserName,
+        postedOn: data.postedOn,
+      });
+    });
+    return {
+      success: true,
+      data: jobs,
     };
   } catch (error) {
     return {

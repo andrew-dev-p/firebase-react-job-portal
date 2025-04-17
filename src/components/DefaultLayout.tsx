@@ -1,9 +1,38 @@
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useCallback, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { getUserProfile } from "../firebase/userService";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../redux/alertSlice";
 
 const DefaultLayout = ({ children }: PropsWithChildren) => {
+  const dispatch = useDispatch();
+
   const user = JSON.parse(localStorage.getItem("user")!);
+
   const [collapsed, setCollapsed] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  const getData = useCallback(async () => {
+    try {
+      dispatch(setLoading(true));
+
+      const response = await getUserProfile();
+      if (response.data?.isAdmin) {
+        setIsAdmin(true);
+      }
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Failed to fetch user profile"
+      );
+    } finally {
+      dispatch(setLoading(false));
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    getData();
+  }, [getData]);
 
   const userMenu = [
     {
@@ -28,11 +57,36 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
     },
   ];
 
+  const adminMenu = [
+    {
+      title: "Home",
+      path: "/",
+      iconClassName: "ri-home-7-line",
+    },
+    {
+      title: "Applications",
+      path: "/admin/applications",
+      iconClassName: "ri-file-list-3-line",
+    },
+    {
+      title: "Jobs",
+      path: "/admin/jobs",
+      iconClassName: "ri-file-list-2-line",
+    },
+    {
+      title: "Users",
+      path: "/admin/users",
+      iconClassName: "ri-user-2-line",
+    },
+  ];
+
+  const menuToRender = isAdmin ? adminMenu : userMenu;
+
   return (
     <div className={`layout${collapsed ? " sidebar-collapsed" : ""}`}>
       <div className="sidebar d-flex justify-content-between">
         <div className="menu">
-          {userMenu.map((menuItem) => (
+          {menuToRender.map((menuItem) => (
             <NavLink
               className={({ isActive }) =>
                 "menu-item" + (isActive ? " active-menu-item" : "")

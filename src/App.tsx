@@ -14,6 +14,8 @@ import AppliedJobs from "./pages/user/AppliedJobs";
 import Profile from "./pages/user/Profile";
 import PostedJobs from "./pages/user/PostedJobs";
 import NewEditJob from "./pages/user/PostedJobs/NewEditJob";
+import AllJobs from "./pages/admin/AllJobs";
+import AllUsers from "./pages/admin/AllUsers";
 
 function App() {
   const { loading } = useAppSelector((state) => state.alert);
@@ -35,6 +37,8 @@ function App() {
             <Route path="/posted-jobs" element={<PostedJobs />} />
             <Route path="/posted-jobs/new" element={<NewEditJob />} />
             <Route path="/posted-jobs/edit/:id" element={<NewEditJob />} />
+            <Route path="/admin/jobs" element={<AllJobs />} />
+            <Route path="/admin/users" element={<AllUsers />} />
           </Route>
         </Routes>
       </BrowserRouter>

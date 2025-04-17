@@ -100,3 +100,8 @@ a:hover {
 .ant-tabs-ink-bar {
   background-color: black !important;
 }
+
+.underline {
+  text-decoration: underline;
+  cursor: pointer;
+}

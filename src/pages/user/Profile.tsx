@@ -10,6 +10,8 @@ import { toast } from "react-toastify";
 import { useCallback, useEffect, useState } from "react";
 
 export interface ProfileFormValues {
+  id: string;
+  status: string;
   firstName?: string;
   lastName?: string;
   email?: string;

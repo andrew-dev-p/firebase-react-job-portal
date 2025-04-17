@@ -284,3 +284,23 @@ export const getAllApplications = async () => {
     };
   }
 };
+
+export const changeApplicationStatus = async (payload: Partial<ApplicationFormValues>) => {
+  try {
+    if (!payload.id) {
+      throw new Error("Application ID is required to change status.");
+    }
+    await updateDoc(doc(fireDB, 'applications', payload.id), {
+      status: payload.status
+    });
+    return {
+      success: true,
+      message: "Application status updated successfully",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : "An error occurred",
+    };
+  }
+}
